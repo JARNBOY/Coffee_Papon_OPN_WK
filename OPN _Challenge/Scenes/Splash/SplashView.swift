@@ -30,7 +30,7 @@ struct SplashView: View {
     }
     
     private var logoImage: some View {
-        Image(uiImage: UIImage(named: "coffee_logo")!)
+        Image(with: .coffeeLogo)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 90, height: 90)

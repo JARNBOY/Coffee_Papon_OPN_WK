@@ -10,16 +10,10 @@ import SwiftUI
 struct StoreProductScreenView: View {
     var coordinator: any AppCoordinatorProtocol
     
-    var body: some View {
-        Text("StoreProductScreenView")
-    }
-}
-
-//{
-//    @State private var selectedProducts: [Product] = []
+    @State private var selectedProducts: [ProductInfo] = []
 //    @State private var isOrderSummaryPresented = false
-//
-//    var body: some View {
+
+    var body: some View {
 //        NavigationView {
 //            VStack(alignment: .leading) {
 //                // Fetch and display store details
@@ -31,15 +25,79 @@ struct StoreProductScreenView: View {
 //                Spacer()
 //
 //                // Navigate to Order Summary screen
-//                NavigationLink(destination: OrderSummaryView(selectedProducts: selectedProducts), isActive: $isOrderSummaryPresented) {
-//                    OrderButton()
-//                }
+////                NavigationLink(destination: OrderSummaryView(selectedProducts: selectedProducts), isActive: $isOrderSummaryPresented) {
+////                    OrderButton()
+////                }
 //            }
 //            .padding()
 //        }
-//    }
-//}
+        VStack {
+            // TODO: Mock before call API real
+            if let moclData = resultMockToStoreInfoRequestStatusSuccess() {
+                StoreDetailView(store: moclData)
+            }
+            
+            Text("3000000")
+            Spacer()
+        }
+        .edgesIgnoringSafeArea(.top)
+    }
+    
+   
+}
 
 //#Preview {
 //    StoreProductScreenView()
 //}
+
+struct StoreDetailView: View {
+    
+    @State var store: StoreInfo
+    
+    var body: some View {
+        ZStack {
+            backgroundGradient
+            detailStore
+                .offset(y: 30)
+        }
+        .frame(width: .infinity, height: 360)
+    }
+    
+    private var detailStore: some View {
+        VStack {
+            Image(with: .coffeeLogo)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 90, height: 90)
+                .foregroundColor(.orange)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.white)
+                        .shadow(color: Color.gray.opacity(0.3), radius: 8, x: 0, y: 4)
+                        .frame(width: 120, height: 120)
+                )
+                .padding()
+            
+            VStack(alignment: .leading) {
+                Text(store.name)
+                    .font(.title2)
+                Text("Open: \(store.openingTime) - Close: \(store.closingTime)")
+                Text("Rating: \(store.rating)")
+            }
+            
+        }
+        
+        
+    }
+    
+    private var backgroundGradient: some View {
+        LinearGradient(colors: [Color(colorName:.splashBackground), .brown, Color(colorName:.splashBackground)],
+                       startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+}
+
+struct ProductListView: View {
+    var body: some View {
+        ZStack {}
+    }
+}
