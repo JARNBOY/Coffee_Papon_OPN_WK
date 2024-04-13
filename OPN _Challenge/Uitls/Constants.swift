@@ -28,3 +28,51 @@ func resultMockToStoreInfoRequestStatusSuccess() -> StoreInfo? {
         return nil
     }
 }
+
+var mockJSONResponseProductInfos: Data {
+    return """
+    [
+      {
+        "name": "Latte",
+        "price": 50,
+        "imageUrl": "https://www.nespresso.com/ncp/res/uploads/recipes/nespresso-recipes-Latte-Art-Tulip.jpg"
+      },
+      {
+        "name": "Dark Tiramisu Mocha",
+        "price": 75,
+        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+      },
+      {
+        "name": "Dark Tiramisu Mocha",
+        "price": 75,
+        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+      },
+      {
+        "name": "Dark Tiramisu Mocha",
+        "price": 75,
+        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+      },
+      {
+        "name": "Dark Tiramisu Mocha",
+        "price": 75,
+        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+      },
+      {
+        "name": "Dark Tiramisu Mocha",
+        "price": 75,
+        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+      }
+    ]
+    """.utf8Encoded
+}
+
+func resultMockJSONResponseProductInfosRequestStatusSuccess() -> [ProductInfo]? {
+    do {
+        let products = try JSONDecoder().decode([ProductInfo].self, from: mockJSONResponseProductInfos)
+        print(products)
+        return products
+    } catch {
+        print("Error decoding JSON: \(error)")
+        return nil
+    }
+}

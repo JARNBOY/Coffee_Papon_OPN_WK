@@ -11,47 +11,52 @@ struct StoreProductScreenView: View {
     var coordinator: any AppCoordinatorProtocol
     
     @State private var selectedProducts: [ProductInfo] = []
-//    @State private var isOrderSummaryPresented = false
-
+    //    @State private var isOrderSummaryPresented = false
+    
     var body: some View {
-//        NavigationView {
-//            VStack(alignment: .leading) {
-//                // Fetch and display store details
-//                StoreDetailView(store: store)
-//
-//                // Fetch and display list of products
-//                ProductListView(products: products, selectedProducts: $selectedProducts)
-//
-//                Spacer()
-//
-//                // Navigate to Order Summary screen
-////                NavigationLink(destination: OrderSummaryView(selectedProducts: selectedProducts), isActive: $isOrderSummaryPresented) {
-////                    OrderButton()
-////                }
-//            }
-//            .padding()
-//        }
         VStack {
             ScrollView {
                 // TODO: Mock before call API real
-                if let moclData = resultMockToStoreInfoRequestStatusSuccess() {
+                if let mockStoreData = resultMockToStoreInfoRequestStatusSuccess() {
                     // Fetch and display store details
-                    StoreDetailView(store: moclData)
+                    StoreDetailView(store: mockStoreData)
                 }
                 
-                // Fetch and display list of products
-                
-                // Navigate to Order Summary screen
-                Text("3000000")
-                Spacer()
-                    .frame(height: 1200)
+                // TODO: Mock before call API real
+                if let mockProductsData = resultMockJSONResponseProductInfosRequestStatusSuccess() {
+                    // Fetch and display list of products
+                    ProductListView(products: mockProductsData)
+                        .frame(width: .infinity)
+                }
             }
             
+            // Button open Order Screen
+            Button(action: {
+                print("open Order Screen")
+            }, label: {
+                HStack {
+                    Spacer()
+                    
+                    Text("Order".uppercased())
+                      .font(.system(.subheadline, design: .rounded))
+                      .fontWeight(.heavy)
+                      .padding(.horizontal, 20)
+                      .padding(.vertical, 12)
+                      .accentColor(Color.pink)
+                    
+                    Spacer()
+                }
+                .background(
+                  Capsule().stroke(Color.pink, lineWidth: 2)
+                )
+                .padding()
+            })
+            .frame(height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         }
         .edgesIgnoringSafeArea(.top)
     }
     
-   
+    
 }
 
 //#Preview {
@@ -105,7 +110,78 @@ struct StoreDetailView: View {
 }
 
 struct ProductListView: View {
+    
+    @State var products: [ProductInfo]
+    @State var selectedProduct: [ProductInfo: Int] = [:]
+    
     var body: some View {
-        ZStack {}
+        ForEach(products, id: \.self) { product in
+            LazyHStack(spacing: 8) {
+                // Image
+                AsyncImage(url: URL(string: product.imageUrl)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 150)
+                } placeholder: {
+                    ProgressView()
+                }
+                
+                // Detail Product
+                VStack(alignment: .leading) {
+                    Text(product.name)
+                    Text("Price: \(product.price.toString) Bath")
+                }
+                
+                Spacer()
+                
+                // Button +, - and Number
+                Button(action: {
+                    decrementSelectedProduct(for: product)
+                }, label: {
+                    Image(systemName: "minus.circle")
+                        .tint(Color.red)
+                        .frame(width: 40, height: 40)
+                })
+                
+                Text("\(String(describing: selectedProduct[product] ?? 0))")
+                
+                Button(action: {
+                    incrementSelectedProduct(for: product)
+                }, label: {
+                    Image(systemName: "plus.circle")
+                        .tint(Color.green)
+                        .frame(width: 40, height: 40)
+                })
+                
+            }
+            .frame(height: 150)
+        }
+        .onAppear(perform: {
+            initializeSelectedProduct()
+        })
     }
+    
+    private func initializeSelectedProduct() {
+            selectedProduct = products.map { product in
+                return (product, 0)
+            }.reduce(into: [:]) { result, element in
+                result[element.0] = element.1
+            }
+        }
+
+        private func incrementSelectedProduct(for product: ProductInfo) {
+            if var count = selectedProduct[product] {
+                count += 1
+                selectedProduct[product] = count
+            }
+        }
+
+        private func decrementSelectedProduct(for product: ProductInfo) {
+            if var count = selectedProduct[product], count > 0 {
+                count -= 1
+                selectedProduct[product] = count
+            }
+        }
+    
 }

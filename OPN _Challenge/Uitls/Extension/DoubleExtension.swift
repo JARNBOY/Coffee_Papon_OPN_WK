@@ -13,4 +13,10 @@ extension Double {
         numberFormatter.maximumFractionDigits = 1
         return numberFormatter.string(from: NSNumber(value: self)) ?? ""
     }
+    
+    var toString: String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 0
+        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+    }
 }
