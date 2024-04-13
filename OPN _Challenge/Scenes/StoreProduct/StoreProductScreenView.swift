@@ -32,13 +32,21 @@ struct StoreProductScreenView: View {
 //            .padding()
 //        }
         VStack {
-            // TODO: Mock before call API real
-            if let moclData = resultMockToStoreInfoRequestStatusSuccess() {
-                StoreDetailView(store: moclData)
+            ScrollView {
+                // TODO: Mock before call API real
+                if let moclData = resultMockToStoreInfoRequestStatusSuccess() {
+                    // Fetch and display store details
+                    StoreDetailView(store: moclData)
+                }
+                
+                // Fetch and display list of products
+                
+                // Navigate to Order Summary screen
+                Text("3000000")
+                Spacer()
+                    .frame(height: 1200)
             }
             
-            Text("3000000")
-            Spacer()
         }
         .edgesIgnoringSafeArea(.top)
     }
@@ -82,7 +90,7 @@ struct StoreDetailView: View {
                 Text(store.name)
                     .font(.title2)
                 Text("Open: \(store.openingTime) - Close: \(store.closingTime)")
-                Text("Rating: \(store.rating)")
+                Text("Rating: \(store.rating.oneDecimalPlace)")
             }
             
         }

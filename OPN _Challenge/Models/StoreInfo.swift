@@ -27,13 +27,13 @@ struct StoreInfo: Codable {
 
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.timeZone = TimeZone.current
-        if let openingTimeDate = dateFormatter.date(from: openingTimeString) {
+        if let openingTimeDate = openingTimeString.toDate() {
             openingTime = StoreInfo.formatTime(from: openingTimeDate)
         } else {
             openingTime = "N/A"
         }
 
-        if let closingTimeDate = dateFormatter.date(from: closingTimeString) {
+        if let closingTimeDate = closingTimeString.toDate() {
             closingTime = StoreInfo.formatTime(from: closingTimeDate)
         } else {
             closingTime = "N/A"

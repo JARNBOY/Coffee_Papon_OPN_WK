@@ -15,3 +15,17 @@ extension String {
         return Data()
     }
 }
+
+extension String {
+    func toDate(format: String = hhmmssSSSFormat) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = .current
+        dateFormatter.dateFormat = format
+        
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
+    }
+}
