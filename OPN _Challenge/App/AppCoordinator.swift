@@ -19,7 +19,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
     func showSplashScreen()
     func showStoreProductScreen()
     func showOrderScreen()
-    func navigateOrderScreen() -> AnyView
+    func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView
     func showSuccessSheet()
 }
 
@@ -39,7 +39,8 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
         case .storeProduct:
             return viewFactory.createStoreProductScreenView(coordinator: self)
         case .order:
-            return viewFactory.createOrderScreenView(coordinator: self)
+            return viewFactory.createOrderScreenView(coordinator: self, 
+                                                     selectedProduct: [])
         case .success:
             return viewFactory.createSuccessSheet(coordinator: self)
         }
@@ -67,9 +68,10 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
         }
     }
     
-    func navigateOrderScreen() -> AnyView {
+    func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView {
         navPath.append(.order)
-        return viewFactory.createOrderScreenView(coordinator: self)
+        return viewFactory.createOrderScreenView(coordinator: self, 
+                                                 selectedProduct: selectedProduct)
     }
 
     func showSuccessSheet() {

@@ -11,7 +11,8 @@ import SwiftUI
 protocol ViewFactory {
     func createSplashView(coordinator: any AppCoordinatorProtocol) -> AnyView
     func createStoreProductScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView
-    func createOrderScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView
+    func createOrderScreenView(coordinator: any AppCoordinatorProtocol,
+                               selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView
     func createSuccessSheet(coordinator: any AppCoordinatorProtocol) -> AnyView
     
 }
@@ -25,8 +26,9 @@ struct DefaultViewFactory: ViewFactory {
         AnyView(StoreProductScreenView(viewModel: StoreProductViewModel(coordinator: coordinator, service: CoffeeAPIService())))
     }
     
-    func createOrderScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView {
-        AnyView(OrderScreenView(coordinator: coordinator))
+    func createOrderScreenView(coordinator: any AppCoordinatorProtocol,
+                               selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView {
+        AnyView(OrderScreenView(coordinator: coordinator, selectedProduct: selectedProduct))
     }
     
     func createSuccessSheet(coordinator: any AppCoordinatorProtocol) -> AnyView {

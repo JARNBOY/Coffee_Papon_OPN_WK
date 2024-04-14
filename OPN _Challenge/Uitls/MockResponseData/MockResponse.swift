@@ -41,26 +41,6 @@ var mockJSONResponseProductInfos: Data {
         "name": "Dark Tiramisu Mocha",
         "price": 75,
         "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
-      },
-      {
-        "name": "Dark Tiramisu Mocha",
-        "price": 75,
-        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
-      },
-      {
-        "name": "Dark Tiramisu Mocha",
-        "price": 75,
-        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
-      },
-      {
-        "name": "Dark Tiramisu Mocha",
-        "price": 75,
-        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
-      },
-      {
-        "name": "Dark Tiramisu Mocha",
-        "price": 75,
-        "imageUrl": "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
       }
     ]
     """.utf8Encoded

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB76F87A2BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76F8792BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift */; };
 		FBA2BD972BC97AD20047FA3B /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BD962BC97AD20047FA3B /* ColorExtension.swift */; };
 		FBA2BD9B2BC982C00047FA3B /* ImageExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BD9A2BC982C00047FA3B /* ImageExtenion.swift */; };
 		FBA2BD9E2BC98BEE0047FA3B /* StoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BD9D2BC98BEE0047FA3B /* StoreInfo.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB76F8792BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSCheckboxToggleStyle.swift; sourceTree = "<group>"; };
 		FBA2BD962BC97AD20047FA3B /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		FBA2BD9A2BC982C00047FA3B /* ImageExtenion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtenion.swift; sourceTree = "<group>"; };
 		FBA2BD9D2BC98BEE0047FA3B /* StoreInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfo.swift; sourceTree = "<group>"; };
@@ -120,6 +122,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB76F8782BCBAD8000661BBE /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				FB76F8792BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift */,
+			);
+			path = ViewModifiers;
+			sourceTree = "<group>";
+		};
 		FBA2BD952BC9796C0047FA3B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +240,7 @@
 		FBB65B582BC9299600B2B905 /* Uitls */ = {
 			isa = PBXGroup;
 			children = (
+				FB76F8782BCBAD8000661BBE /* ViewModifiers */,
 				FBAEDFF62BCB8D8D00CCD4EF /* MockResponseData */,
 				FBAEDFF32BCB8D0600CCD4EF /* Managers */,
 				FBA2BD952BC9796C0047FA3B /* Extension */,
@@ -439,6 +450,7 @@
 				FBA2BD9E2BC98BEE0047FA3B /* StoreInfo.swift in Sources */,
 				FBB65B842BC93D7E00B2B905 /* OrderScreenView.swift in Sources */,
 				FBB65B2E2BC928E700B2B905 /* OPN__ChallengeApp.swift in Sources */,
+				FB76F87A2BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift in Sources */,
 				FBA2BD972BC97AD20047FA3B /* ColorExtension.swift in Sources */,
 				FBB65B612BC92EA400B2B905 /* AppConstants.swift in Sources */,
 			);

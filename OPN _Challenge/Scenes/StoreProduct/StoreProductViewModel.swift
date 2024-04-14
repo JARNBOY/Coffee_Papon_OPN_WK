@@ -20,13 +20,19 @@ enum StoreProductModel {
         let storeInfo: StoreInfo?
         let productsInfo: [ProductInfo]?
     }
+    
+    struct OrderInfo: Hashable {
+        var qty: Int
+        var isSelected: Bool
+        var info: ProductInfo
+    }
 }
 
 final class StoreProductViewModel: ObservableObject {
     @Published var displayStore: StoreProductModel.ViewModel?
     @Published var stateUI: StoreProductModel.stateUI = .idle
     @Published var errorMessage: String?
-    @Published var selectedProduct: [ProductInfo: Int] = [:]
+    @Published var selectedProduct: [ProductInfo: StoreProductModel.OrderInfo] = [:]
     var coordinator: any AppCoordinatorProtocol
     private let service: CoffeeAPIService
     
@@ -36,30 +42,32 @@ final class StoreProductViewModel: ObservableObject {
     }
     
     func openOrderScreen() -> AnyView {
-        coordinator.navigateOrderScreen()
+        let selectProductOreder: [StoreProductModel.OrderInfo] = selectedProduct.compactMap { _, orderInfo in
+            guard orderInfo.qty > 0 && orderInfo.isSelected else { return nil }
+            return orderInfo
+        }
+        return coordinator.navigateOrderScreen(selectedProduct: selectProductOreder)
     }
     
     func initializeSelectedProduct() {
         if let products = displayStore?.productsInfo {
-            selectedProduct = products.map { product in
-                return (product, 0)
-            }.reduce(into: [:]) { result, element in
-                result[element.0] = element.1
+            selectedProduct = products.reduce(into: [:]) { result, product in
+                result[product] = StoreProductModel.OrderInfo(qty: 0, isSelected: false, info: product)
             }
         }
     }
     
     func incrementSelectedProduct(for product: ProductInfo) {
-        if var count = selectedProduct[product] {
-            count += 1
-            selectedProduct[product] = count
+        if var orderInfo = selectedProduct[product] {
+            orderInfo.qty += 1
+            selectedProduct[product] = orderInfo
         }
     }
     
     func decrementSelectedProduct(for product: ProductInfo) {
-        if var count = selectedProduct[product], count > 0 {
-            count -= 1
-            selectedProduct[product] = count
+        if var orderInfo = selectedProduct[product], orderInfo.qty > 0 {
+            orderInfo.qty -= 1
+            selectedProduct[product] = orderInfo
         }
     }
     

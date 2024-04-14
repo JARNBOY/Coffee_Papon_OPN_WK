@@ -32,8 +32,10 @@ struct StoreProductScreenView: View {
                         if let productsData = viewModel.displayStore?.productsInfo {
                             ProductListView(products: productsData, storeProductViewModel: viewModel)
                                 .frame(width: .infinity)
+                                .padding()
                         }
                     }
+                    
                 case .error:
                     Spacer()
                     Text(viewModel.errorMessage ?? "")
@@ -142,46 +144,61 @@ struct ProductListView: View {
     
     var body: some View {
         ForEach(products, id: \.self) { product in
-            LazyHStack(spacing: 8) {
-                // Image
-                AsyncImage(url: URL(string: product.imageUrl)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 150)
-                } placeholder: {
-                    ProgressView()
+            Toggle(isOn: Binding(
+                get: {
+                    storeProductViewModel.selectedProduct[product]?.isSelected ?? false
+                },
+                set: { isSelected in
+                    if var orderInfo = storeProductViewModel.selectedProduct[product] {
+                        orderInfo.isSelected = isSelected
+                        storeProductViewModel.selectedProduct[product] = orderInfo
+                    }
                 }
-                
-                // Detail Product
-                VStack(alignment: .leading) {
-                    Text(product.name)
-                    Text("Price: \(product.price.toString) Bath")
+            )) {
+                LazyHStack(spacing: 8) {
+                    // Image
+                    AsyncImage(url: URL(string: product.imageUrl)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 150)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    
+                    // Detail Product
+                    VStack(alignment: .leading) {
+                        Text(product.name)
+                        Text("Price: \(product.price.toString) Bath")
+                    }
+                    
+                    Spacer()
+                    
+                    // Button +, - and Number
+                    Button(action: {
+                        storeProductViewModel.decrementSelectedProduct(for: product)
+                    }, label: {
+                        Image(systemName: "minus.circle")
+                            .tint(Color.red)
+                            .frame(width: 40, height: 40)
+                    })
+                    
+                    Text("\(String(describing: storeProductViewModel.selectedProduct[product]?.qty ?? 0))")
+                    
+                    Button(action: {
+                        storeProductViewModel.incrementSelectedProduct(for: product)
+                    }, label: {
+                        Image(systemName: "plus.circle")
+                            .tint(Color.green)
+                            .frame(width: 40, height: 40)
+                    })
+                    
                 }
-                
-                Spacer()
-                
-                // Button +, - and Number
-                Button(action: {
-                    storeProductViewModel.decrementSelectedProduct(for: product)
-                }, label: {
-                    Image(systemName: "minus.circle")
-                        .tint(Color.red)
-                        .frame(width: 40, height: 40)
-                })
-                
-                Text("\(String(describing: storeProductViewModel.selectedProduct[product] ?? 0))")
-                
-                Button(action: {
-                    storeProductViewModel.incrementSelectedProduct(for: product)
-                }, label: {
-                    Image(systemName: "plus.circle")
-                        .tint(Color.green)
-                        .frame(width: 40, height: 40)
-                })
-                
+                .frame(height: 150)
             }
-            .frame(height: 150)
+            .toggleStyle(iOSCheckboxToggleStyle())
+            
+            
         }
     }
 }

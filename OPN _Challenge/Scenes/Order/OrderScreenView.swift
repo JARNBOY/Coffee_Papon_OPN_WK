@@ -9,14 +9,38 @@ import SwiftUI
 
 struct OrderScreenView: View {
     var coordinator: any AppCoordinatorProtocol
+    var selectedProduct: [StoreProductModel.OrderInfo] = []
+    var totalPrice: Double {
+        var totalP = 0.0
+        for order in selectedProduct {
+            totalP += order.info.price * Double(order.qty)
+        }
+        return totalP
+    }
     
     var body: some View {
-        Text("OrderScreenView")
-        Button(action: {
-            coordinator.popToRoot()
-        }, label: {
-            Text("Back to root")
-        })
+        VStack {
+            Text("OrderScreenView")
+            ForEach(selectedProduct, id: \.self) { product in
+                HStack {
+                    Text("\(product.info.name)")
+                    Spacer()
+                    Text("\(product.info.price) x \(product.qty)")
+                }
+            }
+            HStack {
+                Spacer()
+                
+                Text("total: \(totalPrice)")
+            }
+            Spacer()
+            Button(action: {
+                print("Go to Success screen")
+            }, label: {
+                Text("Confirm")
+            })
+        }
+        
     }
 }
 
