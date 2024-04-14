@@ -9,14 +9,16 @@ import Foundation
 
 extension Double {
     var oneDecimalPlace: String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.maximumFractionDigits = 1
-        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+        return self.toDecimal(digit: 1)
     }
     
     var toString: String {
+        return self.toDecimal(digit: 0)
+    }
+    
+    func toDecimal(digit: Int = 2) -> String {
         let numberFormatter = NumberFormatter()
-        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.maximumFractionDigits = digit
         return numberFormatter.string(from: NSNumber(value: self)) ?? ""
     }
 }

@@ -52,27 +52,9 @@ struct StoreProductScreenView: View {
                 // Navigate to Order screen
                 NavigationLink(destination: viewModel.openOrderScreen(), isActive: $isOrderSummaryPresented) {
                     // Order Button
-                    Button(action: {
+                    BaseButton(title: "Order") {
                         isOrderSummaryPresented.toggle()
-                    }, label: {
-                        HStack {
-                            Spacer()
-                            
-                            Text("Order".uppercased())
-                              .font(.system(.subheadline, design: .rounded))
-                              .fontWeight(.heavy)
-                              .padding(.horizontal, 20)
-                              .padding(.vertical, 12)
-                              .accentColor(Color.pink)
-                            
-                            Spacer()
-                        }
-                        .background(
-                          Capsule().stroke(Color.pink, lineWidth: 2)
-                        )
-                        .padding()
-                    })
-                    .frame(height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    }
                 }
                 
             }

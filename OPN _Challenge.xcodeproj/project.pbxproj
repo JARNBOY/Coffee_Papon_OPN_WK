@@ -15,6 +15,7 @@
 		FBA2BDA22BC98F580047FA3B /* ProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA12BC98F580047FA3B /* ProductInfo.swift */; };
 		FBA2BDA42BC991DF0047FA3B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA32BC991DF0047FA3B /* StringExtension.swift */; };
 		FBA2BDA62BC992800047FA3B /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA52BC992800047FA3B /* MockResponse.swift */; };
+		FBA3268E2BCBF5E100F974C5 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */; };
 		FBA8703A2BCA32DE00A9C2EA /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */; };
 		FBA8703C2BCA4CB800A9C2EA /* StoreProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */; };
 		FBAEDFF22BCB8CFF00CCD4EF /* CoffeeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */; };
@@ -74,6 +75,7 @@
 		FBA2BDA12BC98F580047FA3B /* ProductInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfo.swift; sourceTree = "<group>"; };
 		FBA2BDA32BC991DF0047FA3B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		FBA2BDA52BC992800047FA3B /* MockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResponse.swift; sourceTree = "<group>"; };
+		FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
 		FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProductViewModel.swift; sourceTree = "<group>"; };
 		FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeAPIService.swift; sourceTree = "<group>"; };
@@ -151,6 +153,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		FBA3268C2BCBF5AF00F974C5 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */,
+			);
+			path = CommonUI;
+			sourceTree = "<group>";
+		};
 		FBAEDFF32BCB8D0600CCD4EF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +204,7 @@
 				FBB65B582BC9299600B2B905 /* Uitls */,
 				FBB65B792BC931C100B2B905 /* Services */,
 				FBA2BD9C2BC98BD80047FA3B /* Models */,
+				FBA3268C2BCBF5AF00F974C5 /* CommonUI */,
 				FBB65B572BC9298B00B2B905 /* Scenes */,
 				FBB65B312BC928EA00B2B905 /* Assets.xcassets */,
 				FBB65B332BC928EA00B2B905 /* Preview Content */,
@@ -448,6 +459,7 @@
 				FBA2BD9B2BC982C00047FA3B /* ImageExtenion.swift in Sources */,
 				FBA8703A2BCA32DE00A9C2EA /* DoubleExtension.swift in Sources */,
 				FBA2BD9E2BC98BEE0047FA3B /* StoreInfo.swift in Sources */,
+				FBA3268E2BCBF5E100F974C5 /* BaseButton.swift in Sources */,
 				FBB65B842BC93D7E00B2B905 /* OrderScreenView.swift in Sources */,
 				FBB65B2E2BC928E700B2B905 /* OPN__ChallengeApp.swift in Sources */,
 				FB76F87A2BCBAD9700661BBE /* iOSCheckboxToggleStyle.swift in Sources */,

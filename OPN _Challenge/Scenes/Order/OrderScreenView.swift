@@ -20,64 +20,66 @@ struct OrderScreenView: View {
     
     var body: some View {
         VStack {
-            Text("OrderScreenView")
-            ForEach(selectedProduct, id: \.self) { product in
-                HStack {
-                    Text("\(product.info.name)")
-                    Spacer()
-                    Text("\(product.info.price) x \(product.qty)")
+            // List Order
+            ScrollView {
+                ForEach(selectedProduct, id: \.self) { product in
+                    HStack {
+                        // Image
+                        AsyncImage(url: URL(string: product.info.imageUrl)) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        
+                        Text("\(product.info.name)")
+                        
+                        Spacer()
+                        
+                        Text("\(product.info.price.toDecimal()) x \(product.qty)")
+                    }
+                    .padding()
                 }
             }
-            HStack {
-                Spacer()
-                
-                Text("total: \(totalPrice)")
-            }
-            Spacer()
-            Button(action: {
-                print("Go to Success screen")
-            }, label: {
-                Text("Confirm")
-            })
+            .padding()
+            
+            totalPriceView()
+            
+            confirmButtonBottom()
         }
         
     }
+    
+    @ViewBuilder
+    private func totalPriceView() -> some View {
+        HStack(alignment: .bottom) {
+            Spacer()
+            
+            Text("Total: ")
+                .font(.system(size: 20))
+                .fontWeight(.heavy)
+            
+            Text("\(totalPrice.toDecimal())")
+                .font(.system(size: 30))
+                .fontWeight(.heavy)
+            
+        }
+        .padding()
+    }
+    
+    @ViewBuilder
+    private func confirmButtonBottom() -> some View {
+        HStack {
+            BaseButton(title: "Confirm") {
+                print("Go to Success screen")
+            }
+        }
+        .frame(width: .infinity,height: 100)
+        .background( .white )
+    }
 }
-
-//{
-//    @State private var deliveryAddress = ""
-//    @State private var isLoading = false
-//    @State private var isSuccessPresented = false
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            // Display selected products and total price
-//            SelectedProductsView(products: selectedProducts)
-//
-//            // Delivery address input
-//            DeliveryAddressView(address: $deliveryAddress)
-//
-//            Spacer()
-//
-//            // Place order button
-//            PlaceOrderButton(isLoading: $isLoading) {
-//                placeOrder()
-//            }
-//        }
-//        .padding()
-//        .sheet(isPresented: $isSuccessPresented) {
-//            SuccessView { isSuccessPresented = false }
-//        }
-//    }
-//
-//    private func placeOrder() {
-//        isLoading = true
-//        // Make a POST request to the /order endpoint
-//        // After the request is completed, show the Success screen
-//        isSuccessPresented = true
-//        isLoading = false
-//    }
-//}
 
 //#Preview {
 //    OrderScreenView()
