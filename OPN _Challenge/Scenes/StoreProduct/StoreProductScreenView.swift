@@ -155,7 +155,7 @@ struct ProductListView: View {
                     }
                 }
             )) {
-                LazyHStack(spacing: 8) {
+                HStack(spacing: 8) {
                     // Image
                     AsyncImage(url: URL(string: product.imageUrl)) { image in
                         image
@@ -169,10 +169,11 @@ struct ProductListView: View {
                     // Detail Product
                     VStack(alignment: .leading) {
                         Text(product.name)
+                            .accentColor(.white)
                         Text("Price: \(product.price.toString) Bath")
+                            .accentColor(.white)
                     }
-                    
-                    Spacer()
+                    .padding()
                     
                     // Button +, - and Number
                     Button(action: {
@@ -194,7 +195,7 @@ struct ProductListView: View {
                     })
                     
                 }
-                .frame(height: 150)
+                .frame(width: .infinity, height: 150)
             }
             .toggleStyle(iOSCheckboxToggleStyle())
             
