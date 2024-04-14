@@ -13,18 +13,14 @@ enum Screen: String {
 }
 
 protocol AppCoordinatorProtocol: ObservableObject {
-    var navPath: [Screen] { get set }
     func start() -> AnyView
-    func popToRoot()
     func showSplashScreen()
     func showStoreProductScreen()
-    func showOrderScreen()
     func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView
-    func showSuccessSheet()
+    func showSuccessSheet(onDismiss: (() -> Void)?) -> AnyView
 }
 
 final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
-    @Published var navPath: [Screen] = []
     @Published var currentScreen: Screen = .splash
     private let viewFactory: ViewFactory
 
@@ -42,13 +38,11 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
             return viewFactory.createOrderScreenView(coordinator: self, 
                                                      selectedProduct: [])
         case .success:
-            return viewFactory.createSuccessSheet(coordinator: self)
+            return viewFactory.createSuccessSheet(coordinator: self, onDismiss: nil)
         }
     }
     
-    func popToRoot() {
-        self.navPath.removeAll()
-    }
+    // For Change currentScreen RootView
 
     func showSplashScreen() {
         withAnimation {
@@ -61,22 +55,17 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
             currentScreen = .storeProduct
         }
     }
-
-    func showOrderScreen() {
-        withAnimation {
-            currentScreen = .order
-        }
-    }
+    
+    // Navigate Something
     
     func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView {
-        navPath.append(.order)
         return viewFactory.createOrderScreenView(coordinator: self, 
                                                  selectedProduct: selectedProduct)
     }
+    
+    // Sheet SomeThing
 
-    func showSuccessSheet() {
-        withAnimation {
-            currentScreen = .success
-        }
+    func showSuccessSheet(onDismiss: (() -> Void)?) -> AnyView {
+        return viewFactory.createSuccessSheet(coordinator: self, onDismiss: onDismiss)
     }
 }

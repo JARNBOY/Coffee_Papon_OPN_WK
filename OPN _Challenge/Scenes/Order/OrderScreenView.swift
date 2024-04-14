@@ -17,6 +17,7 @@ struct OrderScreenView: View {
         }
         return totalP
     }
+    @State var isPresentSuccessScreen: Bool = false
     
     var body: some View {
         VStack {
@@ -49,6 +50,11 @@ struct OrderScreenView: View {
             
             confirmButtonBottom()
         }
+        .sheet(isPresented: $isPresentSuccessScreen) {
+            coordinator.showSuccessSheet {
+                isPresentSuccessScreen = false
+            }
+        }
         
     }
     
@@ -73,7 +79,7 @@ struct OrderScreenView: View {
     private func confirmButtonBottom() -> some View {
         HStack {
             BaseButton(title: "Confirm") {
-                print("Go to Success screen")
+                isPresentSuccessScreen.toggle()
             }
         }
         .frame(width: .infinity,height: 100)

@@ -13,7 +13,8 @@ protocol ViewFactory {
     func createStoreProductScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView
     func createOrderScreenView(coordinator: any AppCoordinatorProtocol,
                                selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView
-    func createSuccessSheet(coordinator: any AppCoordinatorProtocol) -> AnyView
+    func createSuccessSheet(coordinator: any AppCoordinatorProtocol,
+                            onDismiss: (() -> Void)?) -> AnyView
     
 }
 
@@ -31,8 +32,9 @@ struct DefaultViewFactory: ViewFactory {
         AnyView(OrderScreenView(coordinator: coordinator, selectedProduct: selectedProduct))
     }
     
-    func createSuccessSheet(coordinator: any AppCoordinatorProtocol) -> AnyView {
-        AnyView(SuccessSheetView(coordinator: coordinator))
+    func createSuccessSheet(coordinator: any AppCoordinatorProtocol,
+                            onDismiss: (() -> Void)?) -> AnyView {
+        AnyView(SuccessSheetView(coordinator: coordinator, onDismiss: onDismiss))
     }
     
 }

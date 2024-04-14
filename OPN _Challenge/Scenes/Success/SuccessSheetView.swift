@@ -9,28 +9,27 @@ import SwiftUI
 
 struct SuccessSheetView: View {
     var coordinator: any AppCoordinatorProtocol
+    @State var timeRemaining = 4
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    let onDismiss: (() -> Void)?
     
     var body: some View {
-        Text("SuccessSheetView")
+        
+        Button("Back to Order") {
+            onDismiss?()
+        }
+        
+        Text("Auto close :\(timeRemaining)")
+            .onReceive(timer) { _ in
+                if timeRemaining > 0 {
+                    timeRemaining -= 1
+                } else {
+                    onDismiss?()
+                }
+            }
     }
 }
-
-//{
-//    let onDismiss: () -> Void
-//
-//    var body: some View {
-//        VStack {
-//            Text("Order Placed Successfully!")
-//                .font(.title)
-//                .padding()
-//
-//            Button("Dismiss") {
-//                onDismiss()
-//            }
-//        }
-//        .padding()
-//    }
-//}
 
 //#Preview {
 //    SuccessSheet()
