@@ -33,20 +33,19 @@ final class StoreProductViewModel: ObservableObject {
     @Published var stateUI: StoreProductModel.stateUI = .idle
     @Published var errorMessage: String?
     @Published var selectedProduct: [ProductInfo: StoreProductModel.OrderInfo] = [:]
-    var coordinator: any AppCoordinatorProtocol
+    
     private let service: CoffeeAPIService
     
-    init(coordinator: any AppCoordinatorProtocol, service: CoffeeAPIService) {
-        self.coordinator = coordinator
+    init(service: CoffeeAPIService) {
         self.service = service
     }
     
-    func openOrderScreen() -> AnyView {
+    func openOrderScreen(coordinator: AppCoordinator) {
         let selectProductOreder: [StoreProductModel.OrderInfo] = selectedProduct.compactMap { _, orderInfo in
             guard orderInfo.qty > 0 && orderInfo.isSelected else { return nil }
             return orderInfo
         }
-        return coordinator.navigateOrderScreen(selectedProduct: selectProductOreder)
+        coordinator.push(.order(selectedProduct: selectProductOreder))
     }
     
     func initializeSelectedProduct() {

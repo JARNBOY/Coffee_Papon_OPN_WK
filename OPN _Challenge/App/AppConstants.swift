@@ -5,4 +5,7 @@
 //  Created by Papon Supamongkonchai on 12/4/2567 BE.
 //
 
-import Foundation
+import SwiftUI
+
+class AppConstants {
+}

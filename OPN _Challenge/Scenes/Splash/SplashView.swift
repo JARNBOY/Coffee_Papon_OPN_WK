@@ -11,7 +11,7 @@ struct SplashView: View {
     @State private var animatedGradient = true
     @State private var logoOpacity: Double = 1
     
-    var coordinator: any AppCoordinatorProtocol
+    @EnvironmentObject private var coordinator: AppCoordinator
     
     var body: some View {
         ZStack {
@@ -24,7 +24,7 @@ struct SplashView: View {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                coordinator.showStoreProductScreen()
+                coordinator.push(.storeProduct)
             }
         }
     }
@@ -55,9 +55,6 @@ struct SplashView: View {
         .onAppear {
             withAnimation(.linear(duration: 2.0).repeatForever(autoreverses: true)) {
                 animatedGradient.toggle()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                coordinator.showStoreProductScreen()
             }
         }
     }

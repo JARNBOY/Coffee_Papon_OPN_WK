@@ -16,7 +16,7 @@ enum HTTPMethod: String {
 class APIManager {
     static let shared = APIManager()
     
-    func request(endpoint: String, method: HTTPMethod , headers: [String: String]?, body: Data?, completion: @escaping (Result<Data, Error>) -> Void) {
+    func request(endpoint: String, method: HTTPMethod , headers: [String: String]?, body: Data?, completion: @escaping (Result<Data, ErrorType>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completion(.failure(ErrorType.failedInvalidURL))
             return
@@ -34,7 +34,7 @@ class APIManager {
         print("Request : \(request)")
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
-            let result: Result<Data, Error>
+            let result: Result<Data, ErrorType>
             
             defer {
                 completion(result)
@@ -44,7 +44,7 @@ class APIManager {
             print("Response : \(String(describing: response))")
             
             if let error = error {
-                result = .failure(error)
+                result = .failure(ErrorType.custom(error: error))
                 return
             }
             

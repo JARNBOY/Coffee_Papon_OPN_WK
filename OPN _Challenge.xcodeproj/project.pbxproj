@@ -16,6 +16,7 @@
 		FBA2BDA42BC991DF0047FA3B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA32BC991DF0047FA3B /* StringExtension.swift */; };
 		FBA2BDA62BC992800047FA3B /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA52BC992800047FA3B /* MockResponse.swift */; };
 		FBA3268E2BCBF5E100F974C5 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */; };
+		FBA326902BCC07AD00F974C5 /* CoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3268F2BCC07AD00F974C5 /* CoordinatorView.swift */; };
 		FBA8703A2BCA32DE00A9C2EA /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */; };
 		FBA8703C2BCA4CB800A9C2EA /* StoreProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */; };
 		FBAEDFF22BCB8CFF00CCD4EF /* CoffeeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */; };
@@ -29,7 +30,6 @@
 		FBB65B5F2BC92E1D00B2B905 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B5E2BC92E1D00B2B905 /* AppCoordinator.swift */; };
 		FBB65B612BC92EA400B2B905 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B602BC92EA400B2B905 /* AppConstants.swift */; };
 		FBB65B632BC92EDA00B2B905 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B622BC92EDA00B2B905 /* AccessibilityIdentifier.swift */; };
-		FBB65B652BC92EFB00B2B905 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B642BC92EFB00B2B905 /* ViewFactory.swift */; };
 		FBB65B7E2BC93CA300B2B905 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B7D2BC93CA300B2B905 /* SplashView.swift */; };
 		FBB65B812BC93D2900B2B905 /* StoreProductScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B802BC93D2900B2B905 /* StoreProductScreenView.swift */; };
 		FBB65B842BC93D7E00B2B905 /* OrderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB65B832BC93D7E00B2B905 /* OrderScreenView.swift */; };
@@ -76,6 +76,7 @@
 		FBA2BDA32BC991DF0047FA3B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		FBA2BDA52BC992800047FA3B /* MockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResponse.swift; sourceTree = "<group>"; };
 		FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		FBA3268F2BCC07AD00F974C5 /* CoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorView.swift; sourceTree = "<group>"; };
 		FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProductViewModel.swift; sourceTree = "<group>"; };
 		FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeAPIService.swift; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		FBB65B5E2BC92E1D00B2B905 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		FBB65B602BC92EA400B2B905 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		FBB65B622BC92EDA00B2B905 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
-		FBB65B642BC92EFB00B2B905 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		FBB65B7D2BC93CA300B2B905 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		FBB65B802BC93D2900B2B905 /* StoreProductScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProductScreenView.swift; sourceTree = "<group>"; };
 		FBB65B832BC93D7E00B2B905 /* OrderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderScreenView.swift; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 				FBB65B5E2BC92E1D00B2B905 /* AppCoordinator.swift */,
 				FBB65B602BC92EA400B2B905 /* AppConstants.swift */,
 				FBB65B622BC92EDA00B2B905 /* AccessibilityIdentifier.swift */,
-				FBB65B642BC92EFB00B2B905 /* ViewFactory.swift */,
+				FBA3268F2BCC07AD00F974C5 /* CoordinatorView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -451,8 +451,8 @@
 				FBAEDFF22BCB8CFF00CCD4EF /* CoffeeAPIService.swift in Sources */,
 				FBB65B5F2BC92E1D00B2B905 /* AppCoordinator.swift in Sources */,
 				FBB65B812BC93D2900B2B905 /* StoreProductScreenView.swift in Sources */,
-				FBB65B652BC92EFB00B2B905 /* ViewFactory.swift in Sources */,
 				FBA8703C2BCA4CB800A9C2EA /* StoreProductViewModel.swift in Sources */,
+				FBA326902BCC07AD00F974C5 /* CoordinatorView.swift in Sources */,
 				FBB65B632BC92EDA00B2B905 /* AccessibilityIdentifier.swift in Sources */,
 				FBB65B872BC93D9700B2B905 /* SuccessSheetView.swift in Sources */,
 				FBAEDFF52BCB8D1100CCD4EF /* APIManager.swift in Sources */,

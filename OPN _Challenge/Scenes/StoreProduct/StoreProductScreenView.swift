@@ -8,63 +8,57 @@
 import SwiftUI
 
 struct StoreProductScreenView: View {
+    @EnvironmentObject private var coordinator: AppCoordinator
     @StateObject private var viewModel: StoreProductViewModel
-    @State private var isOrderSummaryPresented = false
     
-    init(viewModel: StoreProductViewModel, isOrderSummaryPresented: Bool = false) {
+    init(viewModel: StoreProductViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
-        self.isOrderSummaryPresented = isOrderSummaryPresented
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                switch viewModel.stateUI {
-                case .loading:
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                case .success:
-                    ScrollView {
-                        if let storeData = viewModel.displayStore?.storeInfo {
-                            StoreDetailView(store: storeData)
-                        }
-                        if let productsData = viewModel.displayStore?.productsInfo {
-                            ProductListView(products: productsData, storeProductViewModel: viewModel)
-                                .frame(width: .infinity)
-                                .padding()
-                        }
+        VStack {
+            switch viewModel.stateUI {
+            case .loading:
+                Spacer()
+                ProgressView()
+                Spacer()
+            case .success:
+                ScrollView {
+                    if let storeData = viewModel.displayStore?.storeInfo {
+                        StoreDetailView(store: storeData)
                     }
-                    
-                case .error:
-                    Spacer()
-                    Text(viewModel.errorMessage ?? "")
-                        .font(.system(.subheadline, design: .rounded))
-                        .fontWeight(.heavy)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 12)
-                        .accentColor(Color.blue)
-                    Spacer()
-                case .idle:
-                    EmptyView()
-                }
-                
-                // Navigate to Order screen
-                NavigationLink(destination: viewModel.openOrderScreen(), isActive: $isOrderSummaryPresented) {
-                    // Order Button
-                    BaseButton(title: "Order") {
-                        isOrderSummaryPresented.toggle()
+                    if let productsData = viewModel.displayStore?.productsInfo {
+                        ProductListView(products: productsData, storeProductViewModel: viewModel)
+                            .frame(width: .infinity)
+                            .padding()
                     }
                 }
                 
+            case .error:
+                Spacer()
+                Text(viewModel.errorMessage ?? "")
+                    .font(.system(.subheadline, design: .rounded))
+                    .fontWeight(.heavy)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .accentColor(Color.blue)
+                Spacer()
+            case .idle:
+                EmptyView()
             }
-            .background( .black )
-            .edgesIgnoringSafeArea(.top)
-            .onAppear(perform: {
-                viewModel.feedAllStoreAPI()
-            })
+            
+            // Navigate to Order screen
+            BaseButton(title: "Order") {
+                viewModel.openOrderScreen(coordinator: coordinator)
+            }
+            
         }
-        
+        .background( .black )
+        .edgesIgnoringSafeArea(.top)
+        .onAppear(perform: {
+            viewModel.feedAllStoreAPI()
+        })
+        .navigationBarBackButtonHidden()
     }
     
     

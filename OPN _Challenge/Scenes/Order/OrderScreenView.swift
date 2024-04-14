@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct OrderScreenView: View {
-    var coordinator: any AppCoordinatorProtocol
+    @EnvironmentObject private var coordinator: AppCoordinator
+    
     var selectedProduct: [StoreProductModel.OrderInfo] = []
     var totalPrice: Double {
         var totalP = 0.0
@@ -17,7 +18,6 @@ struct OrderScreenView: View {
         }
         return totalP
     }
-    @State var isPresentSuccessScreen: Bool = false
     
     var body: some View {
         VStack {
@@ -50,11 +50,6 @@ struct OrderScreenView: View {
             
             confirmButtonBottom()
         }
-        .sheet(isPresented: $isPresentSuccessScreen) {
-            coordinator.showSuccessSheet {
-                isPresentSuccessScreen = false
-            }
-        }
         
     }
     
@@ -79,7 +74,10 @@ struct OrderScreenView: View {
     private func confirmButtonBottom() -> some View {
         HStack {
             BaseButton(title: "Confirm") {
-                isPresentSuccessScreen.toggle()
+                coordinator.present(sheet: .success(onDismiss: {
+                    coordinator.dismissSheet()
+                    coordinator.popToRoot()
+                }))
             }
         }
         .frame(width: .infinity,height: 100)

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SuccessSheetView: View {
-    var coordinator: any AppCoordinatorProtocol
+    @EnvironmentObject private var coordinator: AppCoordinator
+    
     @State var timeRemaining = 4
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     

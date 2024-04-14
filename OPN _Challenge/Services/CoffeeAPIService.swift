@@ -66,11 +66,11 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
                     success(nil)
                 }
             case .failure(let error):
-                if error as! ErrorType == ErrorType.failedLimitRequest {
+                if error == ErrorType.failedLimitRequest {
                     // If Limit case we will use Mock follow Doc web
                     success(resultMockToStoreInfoRequestStatusSuccess())
                 } else {
-                    fail(error.localizedDescription)
+                    fail(error.errorDescription)
                 }
             }
         }
@@ -88,11 +88,11 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
                     success(nil)
                 }
             case .failure(let error):
-                if error as! ErrorType == ErrorType.failedLimitRequest {
+                if error == ErrorType.failedLimitRequest {
                     // If Limit case we will use Mock follow Doc web
                     success(resultMockJSONResponseProductInfosRequestStatusSuccess())
                 } else {
-                    fail(error.localizedDescription)
+                    fail(error.errorDescription)
                 }
             }
         }

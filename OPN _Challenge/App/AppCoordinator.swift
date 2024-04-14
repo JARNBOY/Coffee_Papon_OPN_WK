@@ -8,64 +8,141 @@
 import Foundation
 import SwiftUI
 
-enum Screen: String {
-    case splash, storeProduct, order, success
-}
-
-protocol AppCoordinatorProtocol: ObservableObject {
-    func start() -> AnyView
-    func showSplashScreen()
-    func showStoreProductScreen()
-    func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView
-    func showSuccessSheet(onDismiss: (() -> Void)?) -> AnyView
-}
-
-final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
-    @Published var currentScreen: Screen = .splash
-    private let viewFactory: ViewFactory
-
-    init(viewFactory: ViewFactory) {
-        self.viewFactory = viewFactory
-    }
-
-    func start() -> AnyView {
-        switch currentScreen {
+enum Screen: Identifiable, Hashable {
+    case splash, storeProduct, order(selectedProduct: [StoreProductModel.OrderInfo])
+    
+    var id: String {
+        switch self {
         case .splash:
-            return viewFactory.createSplashView(coordinator: self)
+            return "splash"
         case .storeProduct:
-            return viewFactory.createStoreProductScreenView(coordinator: self)
+            return "storeProduct"
         case .order:
-            return viewFactory.createOrderScreenView(coordinator: self, 
-                                                     selectedProduct: [])
+            return "order"
+        }
+    }
+}
+
+enum Sheet: Identifiable, Hashable {
+    case success(onDismiss: (() -> Void)?)
+
+    var id: String {
+        switch self {
         case .success:
-            return viewFactory.createSuccessSheet(coordinator: self, onDismiss: nil)
-        }
-    }
-    
-    // For Change currentScreen RootView
-
-    func showSplashScreen() {
-        withAnimation {
-            currentScreen = .splash
+            return "success"
         }
     }
 
-    func showStoreProductScreen() {
-        withAnimation {
-            currentScreen = .storeProduct
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .success:
+            hasher.combine(0)
+        }
+    }
+
+    static func == (lhs: Sheet, rhs: Sheet) -> Bool {
+        switch (lhs, rhs) {
+        case (.success, .success):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+enum FullScreenOver: Identifiable, Hashable {
+    case success(onDismiss: (() -> Void)?)
+
+    var id: String {
+        switch self {
+        case .success:
+            return "success"
+        }
+    }
+
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .success:
+            hasher.combine(0)
+        }
+    }
+
+    static func == (lhs: FullScreenOver, rhs: FullScreenOver) -> Bool {
+        switch (lhs, rhs) {
+        case (.success, .success):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+final class AppCoordinator: ObservableObject {
+    @Published var path = NavigationPath()
+    @Published var sheet: Sheet?
+    @Published var fullScreenOver: FullScreenOver?
+    
+    func push(_ screen:  Screen) {
+        path.append(screen)
+    }
+    
+    func present(sheet: Sheet) {
+        switch sheet {
+        case .success(let onDismiss):
+            self.sheet = .success(onDismiss: onDismiss)
         }
     }
     
-    // Navigate Something
-    
-    func navigateOrderScreen(selectedProduct: [StoreProductModel.OrderInfo]) -> AnyView {
-        return viewFactory.createOrderScreenView(coordinator: self, 
-                                                 selectedProduct: selectedProduct)
+    func fullScreenOver(fullScreenOver: FullScreenOver) {
+        switch fullScreenOver {
+        case .success(let onDismiss):
+            self.fullScreenOver = .success(onDismiss: onDismiss)
+        }
     }
     
-    // Sheet SomeThing
-
-    func showSuccessSheet(onDismiss: (() -> Void)?) -> AnyView {
-        return viewFactory.createSuccessSheet(coordinator: self, onDismiss: onDismiss)
+    func pop() {
+        path.removeLast()
+    }
+    
+    func popToRoot() {
+        path.removeLast(path.count - 1) // path.count - 1 is not pop to SplashScreen
+    }
+    
+    func dismissSheet() {
+        self.sheet = nil
+    }
+    
+    func dismissFullScreenOver() {
+        self.fullScreenOver = nil
+    }
+    
+    @ViewBuilder
+    func build(screen: Screen) -> some View {
+        switch screen {
+        case .splash:
+            SplashView()
+        case .storeProduct:
+            StoreProductScreenView(viewModel: StoreProductViewModel(service: CoffeeAPIService()))
+        case .order(let selectedProduct):
+            OrderScreenView(selectedProduct: selectedProduct)
+        }
+    }
+    
+    @ViewBuilder
+    func build(sheet: Sheet) -> some View {
+        switch sheet {
+        case .success(let onDismiss):
+            SuccessSheetView(onDismiss: onDismiss)
+        }
+    }
+    
+    @ViewBuilder
+    func build(fullScreenOver: FullScreenOver) -> some View {
+        switch fullScreenOver {
+        case .success(let onDismiss):
+            SuccessSheetView(onDismiss: onDismiss)
+        }
     }
 }
