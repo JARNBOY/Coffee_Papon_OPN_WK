@@ -60,6 +60,9 @@ final class StoreProductViewModel: ObservableObject {
     func incrementSelectedProduct(for product: ProductInfo) {
         if var orderInfo = selectedProduct[product] {
             orderInfo.qty += 1
+            if orderInfo.qty > 0 {
+                orderInfo.isSelected = true
+            }
             selectedProduct[product] = orderInfo
         }
     }
@@ -67,6 +70,9 @@ final class StoreProductViewModel: ObservableObject {
     func decrementSelectedProduct(for product: ProductInfo) {
         if var orderInfo = selectedProduct[product], orderInfo.qty > 0 {
             orderInfo.qty -= 1
+            if orderInfo.qty == 0 {
+                orderInfo.isSelected = false
+            }
             selectedProduct[product] = orderInfo
         }
     }

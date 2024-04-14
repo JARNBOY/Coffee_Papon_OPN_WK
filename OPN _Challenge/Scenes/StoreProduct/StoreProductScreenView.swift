@@ -151,6 +151,7 @@ struct ProductListView: View {
                 set: { isSelected in
                     if var orderInfo = storeProductViewModel.selectedProduct[product] {
                         orderInfo.isSelected = isSelected
+                        orderInfo.qty = isSelected ? 1 : 0
                         storeProductViewModel.selectedProduct[product] = orderInfo
                     }
                 }
