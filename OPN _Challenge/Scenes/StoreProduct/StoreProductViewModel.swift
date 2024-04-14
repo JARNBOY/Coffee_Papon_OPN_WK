@@ -80,6 +80,9 @@ final class StoreProductViewModel: ObservableObject {
 
 extension StoreProductViewModel {
     func feedAllStoreAPI() {
+        if stateUI == .success {
+            stateUI = .idle
+        }
         if stateUI == .idle {
             stateUI = .loading
             self.service.feedAllDataStore { storeInfo, productsInfo in
