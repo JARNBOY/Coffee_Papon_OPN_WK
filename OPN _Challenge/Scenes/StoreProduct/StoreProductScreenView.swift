@@ -30,7 +30,7 @@ struct StoreProductScreenView: View {
                             StoreDetailView(store: storeData)
                         }
                         if let productsData = viewModel.displayStore?.productsInfo {
-                            ProductListView(products: productsData)
+                            ProductListView(products: productsData, storeProductViewModel: viewModel)
                                 .frame(width: .infinity)
                         }
                     }
@@ -44,15 +44,7 @@ struct StoreProductScreenView: View {
                         .accentColor(Color.blue)
                     Spacer()
                 case .idle:
-                    ScrollView {
-                        if let storeData = viewModel.displayStore?.storeInfo {
-                            StoreDetailView(store: storeData)
-                        }
-                        if let productsData = viewModel.displayStore?.productsInfo {
-                            ProductListView(products: productsData)
-                                .frame(width: .infinity)
-                        }
-                    }
+                    EmptyView()
                 }
                 
                 // Navigate to Order screen
@@ -146,7 +138,7 @@ struct StoreDetailView: View {
 
 struct ProductListView: View {
     @State var products: [ProductInfo]
-    @State var selectedProduct: [ProductInfo: Int] = [:]
+    @StateObject var storeProductViewModel: StoreProductViewModel
     
     var body: some View {
         ForEach(products, id: \.self) { product in
@@ -171,17 +163,17 @@ struct ProductListView: View {
                 
                 // Button +, - and Number
                 Button(action: {
-                    decrementSelectedProduct(for: product)
+                    storeProductViewModel.decrementSelectedProduct(for: product)
                 }, label: {
                     Image(systemName: "minus.circle")
                         .tint(Color.red)
                         .frame(width: 40, height: 40)
                 })
                 
-                Text("\(String(describing: selectedProduct[product] ?? 0))")
+                Text("\(String(describing: storeProductViewModel.selectedProduct[product] ?? 0))")
                 
                 Button(action: {
-                    incrementSelectedProduct(for: product)
+                    storeProductViewModel.incrementSelectedProduct(for: product)
                 }, label: {
                     Image(systemName: "plus.circle")
                         .tint(Color.green)
@@ -191,31 +183,5 @@ struct ProductListView: View {
             }
             .frame(height: 150)
         }
-        .onAppear(perform: {
-            initializeSelectedProduct()
-        })
     }
-    
-    private func initializeSelectedProduct() {
-        selectedProduct = products.map { product in
-            return (product, 0)
-        }.reduce(into: [:]) { result, element in
-            result[element.0] = element.1
-        }
-    }
-    
-    private func incrementSelectedProduct(for product: ProductInfo) {
-        if var count = selectedProduct[product] {
-            count += 1
-            selectedProduct[product] = count
-        }
-    }
-    
-    private func decrementSelectedProduct(for product: ProductInfo) {
-        if var count = selectedProduct[product], count > 0 {
-            count -= 1
-            selectedProduct[product] = count
-        }
-    }
-    
 }

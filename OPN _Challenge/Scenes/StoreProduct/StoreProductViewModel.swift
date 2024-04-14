@@ -26,8 +26,7 @@ final class StoreProductViewModel: ObservableObject {
     @Published var displayStore: StoreProductModel.ViewModel?
     @Published var stateUI: StoreProductModel.stateUI = .idle
     @Published var errorMessage: String?
-//    @Published var products: [ProductInfo]
-//    @Published var selectedProduct: [ProductInfo: Int] = [:]
+    @Published var selectedProduct: [ProductInfo: Int] = [:]
     var coordinator: any AppCoordinatorProtocol
     private let service: CoffeeAPIService
     
@@ -40,6 +39,29 @@ final class StoreProductViewModel: ObservableObject {
         coordinator.navigateOrderScreen()
     }
     
+    func initializeSelectedProduct() {
+        if let products = displayStore?.productsInfo {
+            selectedProduct = products.map { product in
+                return (product, 0)
+            }.reduce(into: [:]) { result, element in
+                result[element.0] = element.1
+            }
+        }
+    }
+    
+    func incrementSelectedProduct(for product: ProductInfo) {
+        if var count = selectedProduct[product] {
+            count += 1
+            selectedProduct[product] = count
+        }
+    }
+    
+    func decrementSelectedProduct(for product: ProductInfo) {
+        if var count = selectedProduct[product], count > 0 {
+            count -= 1
+            selectedProduct[product] = count
+        }
+    }
     
 }
 
@@ -53,6 +75,7 @@ extension StoreProductViewModel {
                         storeInfo: storeInfo,
                         productsInfo: productsInfo
                     )
+                    self.initializeSelectedProduct()
                     self.stateUI = .success
                 }
                 
