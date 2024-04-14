@@ -12,6 +12,11 @@ struct OrderScreenView: View {
     
     var body: some View {
         Text("OrderScreenView")
+        Button(action: {
+            coordinator.popToRoot()
+        }, label: {
+            Text("Back to root")
+        })
     }
 }
 

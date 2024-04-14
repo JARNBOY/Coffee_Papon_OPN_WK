@@ -7,27 +7,24 @@
 
 import Foundation
 import SwiftUI
-//import SwiftNetwork
+
+enum Screen: String {
+    case splash, storeProduct, order, success
+}
 
 protocol AppCoordinatorProtocol: ObservableObject {
+    var navPath: [Screen] { get set }
     func start() -> AnyView
-    
+    func popToRoot()
     func showSplashScreen()
     func showStoreProductScreen()
     func showOrderScreen()
+    func navigateOrderScreen() -> AnyView
     func showSuccessSheet()
-
-//    func openPrivacyPolicy(_ urlString: String)
-//    func openTermsOfUse(_ urlString: String)
-//    func openExternalLink(_ urlString: String)
-//    func openXapo(_ urlString: String)
 }
 
 final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
-    enum Screen {
-        case splash, storeProduct, order, success
-    }
-
+    @Published var navPath: [Screen] = []
     @Published var currentScreen: Screen = .splash
     private let viewFactory: ViewFactory
 
@@ -47,6 +44,10 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
             return viewFactory.createSuccessSheet(coordinator: self)
         }
     }
+    
+    func popToRoot() {
+        self.navPath.removeAll()
+    }
 
     func showSplashScreen() {
         withAnimation {
@@ -65,35 +66,15 @@ final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
             currentScreen = .order
         }
     }
+    
+    func navigateOrderScreen() -> AnyView {
+        navPath.append(.order)
+        return viewFactory.createOrderScreenView(coordinator: self)
+    }
 
     func showSuccessSheet() {
         withAnimation {
             currentScreen = .success
         }
     }
-
-//    func showDetailsView(repository: Repository, viewModel: RepositoryViewModel) -> AnyView {
-//        return viewFactory.createRepositoryDetailView(repository: repository, viewModel: viewModel, coordinator: self)
-//    }
-
-//    func showShareScreen(with url: String) -> AnyView {
-//        return viewFactory.createShareSheet(with: url)
-//    }
-
-//    func openPrivacyPolicy(_ urlString: String) {
-//        openExternalLink(urlString)
-//    }
-//
-//    func openTermsOfUse(_ urlString: String) {
-//        openExternalLink(urlString)
-//    }
-//
-//    func openXapo(_ urlString: String) {
-//        openExternalLink(urlString)
-//    }
-//    
-//    func openExternalLink(_ urlString: String) {
-//        guard let url = URL(string: urlString) else { return }
-//        UIApplication.shared.open(url)
-//    }
 }

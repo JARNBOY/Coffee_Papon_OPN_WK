@@ -22,7 +22,7 @@ struct DefaultViewFactory: ViewFactory {
     }
     
     func createStoreProductScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView {
-        AnyView(StoreProductScreenView(coordinator: coordinator))
+        AnyView(StoreProductScreenView(viewModel: StoreProductViewModel(coordinator: coordinator, service: CoffeeAPIService())))
     }
     
     func createOrderScreenView(coordinator: any AppCoordinatorProtocol) -> AnyView {

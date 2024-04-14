@@ -8,52 +8,87 @@
 import SwiftUI
 
 struct StoreProductScreenView: View {
-    var coordinator: any AppCoordinatorProtocol
+    @StateObject private var viewModel: StoreProductViewModel
+    @State private var isOrderSummaryPresented = false
     
-    @State private var selectedProducts: [ProductInfo] = []
-    //    @State private var isOrderSummaryPresented = false
+    init(viewModel: StoreProductViewModel, isOrderSummaryPresented: Bool = false) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.isOrderSummaryPresented = isOrderSummaryPresented
+    }
     
     var body: some View {
-        VStack {
-            ScrollView {
-                // TODO: Mock before call API real
-                if let mockStoreData = resultMockToStoreInfoRequestStatusSuccess() {
-                    // Fetch and display store details
-                    StoreDetailView(store: mockStoreData)
+        NavigationView {
+            VStack {
+                switch viewModel.stateUI {
+                case .loading:
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                case .success:
+                    ScrollView {
+                        if let storeData = viewModel.displayStore?.storeInfo {
+                            StoreDetailView(store: storeData)
+                        }
+                        if let productsData = viewModel.displayStore?.productsInfo {
+                            ProductListView(products: productsData)
+                                .frame(width: .infinity)
+                        }
+                    }
+                case .error:
+                    Spacer()
+                    Text(viewModel.errorMessage ?? "")
+                        .font(.system(.subheadline, design: .rounded))
+                        .fontWeight(.heavy)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .accentColor(Color.blue)
+                    Spacer()
+                case .idle:
+                    ScrollView {
+                        if let storeData = viewModel.displayStore?.storeInfo {
+                            StoreDetailView(store: storeData)
+                        }
+                        if let productsData = viewModel.displayStore?.productsInfo {
+                            ProductListView(products: productsData)
+                                .frame(width: .infinity)
+                        }
+                    }
                 }
                 
-                // TODO: Mock before call API real
-                if let mockProductsData = resultMockJSONResponseProductInfosRequestStatusSuccess() {
-                    // Fetch and display list of products
-                    ProductListView(products: mockProductsData)
-                        .frame(width: .infinity)
+                // Navigate to Order screen
+                NavigationLink(destination: viewModel.openOrderScreen(), isActive: $isOrderSummaryPresented) {
+                    // Order Button
+                    Button(action: {
+                        isOrderSummaryPresented.toggle()
+                    }, label: {
+                        HStack {
+                            Spacer()
+                            
+                            Text("Order".uppercased())
+                              .font(.system(.subheadline, design: .rounded))
+                              .fontWeight(.heavy)
+                              .padding(.horizontal, 20)
+                              .padding(.vertical, 12)
+                              .accentColor(Color.pink)
+                            
+                            Spacer()
+                        }
+                        .background(
+                          Capsule().stroke(Color.pink, lineWidth: 2)
+                        )
+                        .padding()
+                    })
+                    .frame(height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 }
+                
             }
-            
-            // Button open Order Screen
-            Button(action: {
-                print("open Order Screen")
-            }, label: {
-                HStack {
-                    Spacer()
-                    
-                    Text("Order".uppercased())
-                      .font(.system(.subheadline, design: .rounded))
-                      .fontWeight(.heavy)
-                      .padding(.horizontal, 20)
-                      .padding(.vertical, 12)
-                      .accentColor(Color.pink)
-                    
-                    Spacer()
-                }
-                .background(
-                  Capsule().stroke(Color.pink, lineWidth: 2)
-                )
-                .padding()
+            .background( .black )
+            .edgesIgnoringSafeArea(.top)
+            .onAppear(perform: {
+                viewModel.feedAllStoreAPI()
             })
-            .frame(height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         }
-        .edgesIgnoringSafeArea(.top)
+        
     }
     
     
@@ -110,7 +145,6 @@ struct StoreDetailView: View {
 }
 
 struct ProductListView: View {
-    
     @State var products: [ProductInfo]
     @State var selectedProduct: [ProductInfo: Int] = [:]
     
@@ -163,25 +197,25 @@ struct ProductListView: View {
     }
     
     private func initializeSelectedProduct() {
-            selectedProduct = products.map { product in
-                return (product, 0)
-            }.reduce(into: [:]) { result, element in
-                result[element.0] = element.1
-            }
+        selectedProduct = products.map { product in
+            return (product, 0)
+        }.reduce(into: [:]) { result, element in
+            result[element.0] = element.1
         }
-
-        private func incrementSelectedProduct(for product: ProductInfo) {
-            if var count = selectedProduct[product] {
-                count += 1
-                selectedProduct[product] = count
-            }
+    }
+    
+    private func incrementSelectedProduct(for product: ProductInfo) {
+        if var count = selectedProduct[product] {
+            count += 1
+            selectedProduct[product] = count
         }
-
-        private func decrementSelectedProduct(for product: ProductInfo) {
-            if var count = selectedProduct[product], count > 0 {
-                count -= 1
-                selectedProduct[product] = count
-            }
+    }
+    
+    private func decrementSelectedProduct(for product: ProductInfo) {
+        if var count = selectedProduct[product], count > 0 {
+            count -= 1
+            selectedProduct[product] = count
         }
+    }
     
 }
