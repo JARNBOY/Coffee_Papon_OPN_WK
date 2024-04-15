@@ -14,6 +14,10 @@ protocol CoffeeAPIServiceProtocol {
                       fail: @escaping (_ error: String?) -> ())
     func requestProducts(success: @escaping ([ProductInfo]?) -> (), 
                          fail: @escaping (_ error: String?) -> ())
+    func requestMakeOrder(products: [ProductInfo],
+                          deliveryAddress: String,
+                          success: @escaping (String?) -> (),
+                          fail: @escaping (_ error: String?) -> ())
 }
 
 class CoffeeAPIService: CoffeeAPIServiceProtocol {
@@ -55,7 +59,7 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
     }
     
     func requestStore(success: @escaping (StoreInfo?) -> (), fail: @escaping (_ error: String?) -> ()) {
-        APIManager.shared.request(endpoint: "https://c8d92d0a-6233-4ef7-a229-5a91deb91ea1.mock.pstmn.io/storeInfo", method: .get, headers: nil, body: nil) { result in
+        APIManager.shared.request(endpoint: "\(baseURL)/storeInfo", method: .get, headers: nil, body: nil) { result in
             switch result {
             case .success(let data):
                 do {
@@ -77,7 +81,7 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
     }
     
     func requestProducts(success: @escaping ([ProductInfo]?) -> (), fail: @escaping (_ error: String?) -> ()) {
-        APIManager.shared.request(endpoint: "https://c8d92d0a-6233-4ef7-a229-5a91deb91ea1.mock.pstmn.io/products", method: .get, headers: nil, body: nil) { result in
+        APIManager.shared.request(endpoint: "\(baseURL)/products", method: .get, headers: nil, body: nil) { result in
             switch result {
             case .success(let data):
                 do {
@@ -98,5 +102,38 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
         }
     }
     
-    
+    func requestMakeOrder(products: [ProductInfo],
+                          deliveryAddress: String,
+                          success: @escaping (String?) -> (),
+                          fail: @escaping (_ error: String?) -> ()) {
+        
+        let orderData = OrderData(
+            products: products,
+            deliveryAddress: "CDC O4 Office, Bangkapi, Bangkok, 10310"
+        )
+
+        let jsonBodyData = try? JSONEncoder().encode(orderData)
+        let jsonString = String(data: jsonBodyData ?? Data(), encoding: .utf8)
+        print(jsonString ?? "")
+        
+        APIManager.shared.request(endpoint: "\(baseURL)/order", method: .post, headers: nil, body: jsonBodyData) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let status = try JSONDecoder().decode(String.self, from: data)
+                    success(status)
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                    success(nil)
+                }
+            case .failure(let error):
+                if error == ErrorType.failedLimitRequest {
+                    // If Limit case we will use Mock follow Doc web
+                    success("Success")
+                } else {
+                    fail(error.errorDescription)
+                }
+            }
+        }
+    }
 }
