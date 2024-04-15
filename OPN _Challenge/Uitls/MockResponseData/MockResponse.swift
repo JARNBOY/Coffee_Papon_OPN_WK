@@ -7,11 +7,16 @@
 
 import Foundation
 
+// Mock Property
 let mockProduct1 = ProductInfo(name: "Latte", price: 50.0, imageUrl: "https://www.nespresso.com/ncp/res/uploads/recipes/nespresso-recipes-Latte-Art-Tulip.jpg")
-
 let mockProduct2 = ProductInfo(name: "Dark Tiramisu Mocha", price: 75.0, imageUrl: "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
 )
 
+let mockOrderInfo1 = StoreProductModel.OrderInfo(qty: 2, isSelected: true, info: mockProduct1)
+let mockOrderInfo2 = StoreProductModel.OrderInfo(qty: 2, isSelected: true, info: mockProduct2)
+let mockOrders = [mockOrderInfo1, mockOrderInfo2]
+
+// Mock Result Response JSON
 var mockJSONResponseStoreInfo: Data {
     return """
     {
@@ -60,4 +65,8 @@ func resultMockJSONResponseProductInfosRequestStatusSuccess() -> [ProductInfo]? 
         print("Error decoding JSON: \(error)")
         return nil
     }
+}
+
+var resultMockJSONResponseMakeOrderStatusSuccess: String {
+    return "Success"
 }

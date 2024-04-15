@@ -65,7 +65,7 @@ class StoreProductViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.selectedProduct[product1]?.isSelected, false)
     }
     
-    func testFeedAllStoreAPI() {
+    func testFeedAllStoreAPIStatusSuccess() {
         // Arrange
         guard 
             let mockStore = resultMockToStoreInfoRequestStatusSuccess(),
@@ -77,7 +77,7 @@ class StoreProductViewModelTests: XCTestCase {
         let storeInfo: StoreInfo = mockStore
         let products: [ProductInfo] = mockProducts
         // Act
-        mockService.returnSuccessResponse(storeInfo: storeInfo, productsInfo: products)
+        mockService.returnSuccessResponseFeedAllDataStore(storeInfo: storeInfo, productsInfo: products)
         viewModel.feedAllStoreAPI()
         
         // Assert
@@ -100,7 +100,7 @@ class StoreProductViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.selectedProduct.count, 2)
     }
     
-    func testFeedAllStoreAPIFailure() {
+    func testFeedAllStoreAPIStatusFailure() {
         // Arrange
         let errorMessage = "Network error"
         
@@ -123,23 +123,4 @@ class StoreProductViewModelTests: XCTestCase {
     }
 }
 
-class MockCoffeeAPIService: CoffeeAPIService {
-    private var successResponse: (StoreInfo?, [ProductInfo])?
-    private var errorResponse: String?
-    
-    func feedAllDataStore(success: @escaping (StoreInfo?, [ProductInfo]?) -> Void, fail: @escaping (String?) -> Void) {
-        if let (storeInfo, productsInfo) = successResponse {
-            success(storeInfo, productsInfo)
-        } else if let error = errorResponse {
-            fail(error)
-        }
-    }
-    
-    func returnSuccessResponse(storeInfo: StoreInfo, productsInfo: [ProductInfo]) {
-        successResponse = (storeInfo, productsInfo)
-    }
-    
-    func returnFailureResponse(error: String) {
-        errorResponse = error
-    }
-}
+
