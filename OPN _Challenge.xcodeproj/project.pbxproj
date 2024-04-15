@@ -17,6 +17,7 @@
 		FBA2BDA62BC992800047FA3B /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA2BDA52BC992800047FA3B /* MockResponse.swift */; };
 		FBA3268E2BCBF5E100F974C5 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */; };
 		FBA326902BCC07AD00F974C5 /* CoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3268F2BCC07AD00F974C5 /* CoordinatorView.swift */; };
+		FBA69DC82BCCB62E00D3F6F8 /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA69DC72BCCB62E00D3F6F8 /* OrderViewModel.swift */; };
 		FBA8703A2BCA32DE00A9C2EA /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */; };
 		FBA8703C2BCA4CB800A9C2EA /* StoreProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */; };
 		FBAEDFF22BCB8CFF00CCD4EF /* CoffeeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */; };
@@ -77,6 +78,7 @@
 		FBA2BDA52BC992800047FA3B /* MockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResponse.swift; sourceTree = "<group>"; };
 		FBA3268D2BCBF5E100F974C5 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
 		FBA3268F2BCC07AD00F974C5 /* CoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorView.swift; sourceTree = "<group>"; };
+		FBA69DC72BCCB62E00D3F6F8 /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
 		FBA870392BCA32DE00A9C2EA /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		FBA8703B2BCA4CB800A9C2EA /* StoreProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProductViewModel.swift; sourceTree = "<group>"; };
 		FBAEDFF12BCB8CFF00CCD4EF /* CoffeeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeAPIService.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				FBB65B832BC93D7E00B2B905 /* OrderScreenView.swift */,
+				FBA69DC72BCCB62E00D3F6F8 /* OrderViewModel.swift */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				FBAEDFF52BCB8D1100CCD4EF /* APIManager.swift in Sources */,
 				FBA2BD9B2BC982C00047FA3B /* ImageExtenion.swift in Sources */,
 				FBA8703A2BCA32DE00A9C2EA /* DoubleExtension.swift in Sources */,
+				FBA69DC82BCCB62E00D3F6F8 /* OrderViewModel.swift in Sources */,
 				FBA2BD9E2BC98BEE0047FA3B /* StoreInfo.swift in Sources */,
 				FBA3268E2BCBF5E100F974C5 /* BaseButton.swift in Sources */,
 				FBB65B842BC93D7E00B2B905 /* OrderScreenView.swift in Sources */,

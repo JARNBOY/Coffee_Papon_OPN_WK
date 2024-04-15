@@ -9,10 +9,10 @@ import SwiftUI
 
 struct StoreProductScreenView: View {
     @EnvironmentObject private var coordinator: AppCoordinator
-    @StateObject private var viewModel: StoreProductViewModel
+    @ObservedObject private var viewModel: StoreProductViewModel
     
     init(viewModel: StoreProductViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
     
     var body: some View {
