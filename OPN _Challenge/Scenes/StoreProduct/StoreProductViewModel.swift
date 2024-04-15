@@ -36,16 +36,23 @@ final class StoreProductViewModel: ObservableObject {
     
     private let service: CoffeeAPIService
     
+    private var selectedProductsFilter: [StoreProductModel.OrderInfo] {
+        let selectProductOrder: [StoreProductModel.OrderInfo] = selectedProduct.compactMap { _, orderInfo in
+            guard orderInfo.qty > 0 && orderInfo.isSelected else { return nil }
+            return orderInfo
+        }
+        return selectProductOrder
+    }
+    var isDisableOrderButton: Bool {
+        return selectedProductsFilter.isEmpty
+    }
+    
     init(service: CoffeeAPIService) {
         self.service = service
     }
     
     func openOrderScreen(coordinator: AppCoordinator) {
-        let selectProductOreder: [StoreProductModel.OrderInfo] = selectedProduct.compactMap { _, orderInfo in
-            guard orderInfo.qty > 0 && orderInfo.isSelected else { return nil }
-            return orderInfo
-        }
-        coordinator.push(.order(selectedProduct: selectProductOreder))
+        coordinator.push(.order(selectedProduct: selectedProductsFilter))
     }
     
     func initializeSelectedProduct() {

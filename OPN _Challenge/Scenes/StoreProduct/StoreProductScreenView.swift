@@ -51,6 +51,7 @@ struct StoreProductScreenView: View {
             BaseButton(title: "Order") {
                 viewModel.openOrderScreen(coordinator: coordinator)
             }
+            .disabled(viewModel.isDisableOrderButton)
             
         }
         .background( .black )
