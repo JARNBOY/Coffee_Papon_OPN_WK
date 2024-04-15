@@ -51,13 +51,17 @@ extension OrderViewModel {
         let products: [ProductInfo] = selectedProduct.map({ $0.info })
         stateUI = .loading
         service.requestMakeOrder(products: products, deliveryAddress: deliveryAddress) { status in
-            if status == "Success" {
-                self.openSuccessMakeOrder(coordinator: coordinator)
+            DispatchQueue.main.async {
+                if status == "Success" {
+                    self.openSuccessMakeOrder(coordinator: coordinator)
+                }
+                self.stateUI = .success
             }
-            self.stateUI = .success
         } fail: { error in
-            self.errorMessage = error
-            self.stateUI = .error
+            DispatchQueue.main.async {
+                self.errorMessage = error
+                self.stateUI = .error
+            }
         }
 
     }

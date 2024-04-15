@@ -111,10 +111,9 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
             products: products,
             deliveryAddress: deliveryAddress
         )
-
         let jsonBodyData = try? JSONEncoder().encode(orderData)
-        let jsonString = String(data: jsonBodyData ?? Data(), encoding: .utf8)
-        print(jsonString ?? "")
+//        let jsonString = String(data: jsonBodyData ?? Data(), encoding: .utf8)
+//        print(jsonString ?? "")
         
         APIManager.shared.request(endpoint: "\(baseURL)/order", method: .post, headers: nil, body: jsonBodyData) { result in
             switch result {
