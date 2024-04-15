@@ -37,7 +37,7 @@ final class OrderViewModel: ObservableObject {
         self.selectedProduct = selectedProduct
     }
     
-    func openSuccessMakeOrder(coordinator: AppCoordinator) {
+    func openSuccessMakeOrder(coordinator: any AppCoordinatorProtocol) {
         coordinator.present(sheet: .success(onDismiss: {
             coordinator.dismissSheet()
             coordinator.popToRoot()
@@ -47,7 +47,7 @@ final class OrderViewModel: ObservableObject {
 }
 
 extension OrderViewModel {
-    func requestMakeOrder(coordinator: AppCoordinator, deliveryAddress: String = "CDC O4 Office, Bangkapi, Bangkok, 10310") {
+    func requestMakeOrder(coordinator: any AppCoordinatorProtocol, deliveryAddress: String = "CDC O4 Office, Bangkapi, Bangkok, 10310") {
         let products: [ProductInfo] = selectedProduct.map({ $0.info })
         stateUI = .loading
         service.requestMakeOrder(products: products, deliveryAddress: deliveryAddress) { status in

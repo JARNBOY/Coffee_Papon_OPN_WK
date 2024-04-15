@@ -55,7 +55,7 @@ final class StoreProductViewModel: ObservableObject {
         self.service = service
     }
     
-    func openOrderScreen(coordinator: AppCoordinator) {
+    func openOrderScreen(coordinator: any AppCoordinatorProtocol) {
         coordinator.push(.order(selectedProduct: selectedProductsFilter))
     }
     

@@ -79,7 +79,17 @@ enum FullScreenOver: Identifiable, Hashable {
     }
 }
 
-final class AppCoordinator: ObservableObject {
+protocol AppCoordinatorProtocol: ObservableObject {
+    func push(_ screen:  Screen)
+    func present(sheet: Sheet)
+    func fullScreenOver(fullScreenOver: FullScreenOver)
+    func pop()
+    func popToRoot()
+    func dismissSheet()
+    func dismissFullScreenOver()
+}
+
+final class AppCoordinator: ObservableObject, AppCoordinatorProtocol {
     @Published var path = NavigationPath()
     @Published var sheet: Sheet?
     @Published var fullScreenOver: FullScreenOver?
