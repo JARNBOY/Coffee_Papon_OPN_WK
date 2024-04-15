@@ -30,12 +30,15 @@ struct OrderScreenView: View {
                         } placeholder: {
                             ProgressView()
                         }
+                        .accessibility(identifier: .productSelectedImage)
                         
                         Text("\(product.info.name)")
+                            .accessibility(identifier: .productNameSelectedLabel)
                         
                         Spacer()
                         
                         Text("\(product.info.price.toDecimal()) x \(product.qty)")
+                            .accessibility(identifier: .productPriceAndQTYSelectedLabel)
                     }
                     .padding()
                 }
@@ -45,6 +48,7 @@ struct OrderScreenView: View {
             totalPriceView()
             
             confirmButtonBottom()
+                .accessibility(identifier: .confirmButton)
         }
         .overlay {
             if viewModel.stateUI == .loading {
@@ -66,6 +70,7 @@ struct OrderScreenView: View {
             Text("\(viewModel.totalPrice.toDecimal())")
                 .font(.system(size: 30))
                 .fontWeight(.heavy)
+                .accessibility(identifier: .totalPriceLabel)
             
         }
         .padding()
