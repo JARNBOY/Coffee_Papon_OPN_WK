@@ -109,7 +109,7 @@ class CoffeeAPIService: CoffeeAPIServiceProtocol {
         
         let orderData = OrderData(
             products: products,
-            deliveryAddress: "CDC O4 Office, Bangkapi, Bangkok, 10310"
+            deliveryAddress: deliveryAddress
         )
 
         let jsonBodyData = try? JSONEncoder().encode(orderData)

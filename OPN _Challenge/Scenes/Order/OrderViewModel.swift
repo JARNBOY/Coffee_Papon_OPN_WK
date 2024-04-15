@@ -7,12 +7,59 @@
 
 import Foundation
 
+enum OrderModel {
+    enum stateUI: Equatable {
+        case idle
+        case loading
+        case success
+        case error
+    }
+}
+
 final class OrderViewModel: ObservableObject {
+
+    @Published var stateUI: OrderModel.stateUI = .idle
+    @Published var errorMessage: String?
+    @Published var selectedProduct: [StoreProductModel.OrderInfo]
     
+    var totalPrice: Double {
+        var totalP = 0.0
+        for order in selectedProduct {
+            totalP += order.info.price * Double(order.qty)
+        }
+        return totalP
+    }
     private let service: CoffeeAPIService
     
-    init(service: CoffeeAPIService) {
+    init(service: CoffeeAPIService,
+         selectedProduct: [StoreProductModel.OrderInfo]) {
         self.service = service
+        self.selectedProduct = selectedProduct
+    }
+    
+    func openSuccessMakeOrder(coordinator: AppCoordinator) {
+        coordinator.present(sheet: .success(onDismiss: {
+            coordinator.dismissSheet()
+            coordinator.popToRoot()
+        }))
     }
     
 }
+
+extension OrderViewModel {
+    func requestMakeOrder(coordinator: AppCoordinator, deliveryAddress: String = "CDC O4 Office, Bangkapi, Bangkok, 10310") {
+        let products: [ProductInfo] = selectedProduct.map({ $0.info })
+        stateUI = .loading
+        service.requestMakeOrder(products: products, deliveryAddress: deliveryAddress) { status in
+            if status == "Success" {
+                self.openSuccessMakeOrder(coordinator: coordinator)
+            }
+            self.stateUI = .success
+        } fail: { error in
+            self.errorMessage = error
+            self.stateUI = .error
+        }
+
+    }
+}
+

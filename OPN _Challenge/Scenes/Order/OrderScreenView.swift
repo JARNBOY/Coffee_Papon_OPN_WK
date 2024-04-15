@@ -9,21 +9,17 @@ import SwiftUI
 
 struct OrderScreenView: View {
     @EnvironmentObject private var coordinator: AppCoordinator
+    @ObservedObject private var viewModel: OrderViewModel
     
-    var selectedProduct: [StoreProductModel.OrderInfo] = []
-    var totalPrice: Double {
-        var totalP = 0.0
-        for order in selectedProduct {
-            totalP += order.info.price * Double(order.qty)
-        }
-        return totalP
+    init(viewModel: OrderViewModel) {
+        self.viewModel = viewModel
     }
     
     var body: some View {
         VStack {
             // List Order
             ScrollView {
-                ForEach(selectedProduct, id: \.self) { product in
+                ForEach(viewModel.selectedProduct, id: \.self) { product in
                     HStack {
                         // Image
                         AsyncImage(url: URL(string: product.info.imageUrl)) { image in
@@ -50,6 +46,11 @@ struct OrderScreenView: View {
             
             confirmButtonBottom()
         }
+        .overlay {
+            if viewModel.stateUI == .loading {
+                ProgressView()
+            }
+        }
         
     }
     
@@ -62,7 +63,7 @@ struct OrderScreenView: View {
                 .font(.system(size: 20))
                 .fontWeight(.heavy)
             
-            Text("\(totalPrice.toDecimal())")
+            Text("\(viewModel.totalPrice.toDecimal())")
                 .font(.system(size: 30))
                 .fontWeight(.heavy)
             
@@ -74,10 +75,7 @@ struct OrderScreenView: View {
     private func confirmButtonBottom() -> some View {
         HStack {
             BaseButton(title: "Confirm") {
-                coordinator.present(sheet: .success(onDismiss: {
-                    coordinator.dismissSheet()
-                    coordinator.popToRoot()
-                }))
+                viewModel.requestMakeOrder(coordinator: coordinator)
             }
         }
         .frame(width: .infinity,height: 100)

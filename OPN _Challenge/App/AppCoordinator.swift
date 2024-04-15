@@ -126,7 +126,8 @@ final class AppCoordinator: ObservableObject {
         case .storeProduct:
             StoreProductScreenView(viewModel: StoreProductViewModel(service: CoffeeAPIService()))
         case .order(let selectedProduct):
-            OrderScreenView(selectedProduct: selectedProduct)
+            OrderScreenView(viewModel: OrderViewModel(service: CoffeeAPIService(),
+                                                      selectedProduct: selectedProduct))
         }
     }
     
