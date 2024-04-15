@@ -16,7 +16,11 @@ enum StoreProductModel {
         case error
     }
     
-    struct ViewModel {
+    struct ViewModel: Equatable {
+        static func == (lhs: StoreProductModel.ViewModel, rhs: StoreProductModel.ViewModel) -> Bool {
+            return lhs.storeInfo?.name == rhs.storeInfo?.name
+        }
+        
         let storeInfo: StoreInfo?
         let productsInfo: [ProductInfo]?
     }
@@ -34,7 +38,7 @@ final class StoreProductViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var selectedProduct: [ProductInfo: StoreProductModel.OrderInfo] = [:]
     
-    private let service: CoffeeAPIService
+    private let service: CoffeeAPIServiceProtocol
     
     private var selectedProductsFilter: [StoreProductModel.OrderInfo] {
         let selectProductOrder: [StoreProductModel.OrderInfo] = selectedProduct.compactMap { _, orderInfo in
@@ -47,7 +51,7 @@ final class StoreProductViewModel: ObservableObject {
         return selectedProductsFilter.isEmpty
     }
     
-    init(service: CoffeeAPIService) {
+    init(service: CoffeeAPIServiceProtocol) {
         self.service = service
     }
     

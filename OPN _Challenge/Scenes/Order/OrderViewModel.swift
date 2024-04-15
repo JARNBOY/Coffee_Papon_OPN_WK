@@ -29,9 +29,9 @@ final class OrderViewModel: ObservableObject {
         }
         return totalP
     }
-    private let service: CoffeeAPIService
+    private let service: CoffeeAPIServiceProtocol
     
-    init(service: CoffeeAPIService,
+    init(service: CoffeeAPIServiceProtocol,
          selectedProduct: [StoreProductModel.OrderInfo]) {
         self.service = service
         self.selectedProduct = selectedProduct

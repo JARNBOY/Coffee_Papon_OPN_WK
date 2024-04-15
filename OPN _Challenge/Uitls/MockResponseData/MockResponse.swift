@@ -7,6 +7,11 @@
 
 import Foundation
 
+let mockProduct1 = ProductInfo(name: "Latte", price: 50.0, imageUrl: "https://www.nespresso.com/ncp/res/uploads/recipes/nespresso-recipes-Latte-Art-Tulip.jpg")
+
+let mockProduct2 = ProductInfo(name: "Dark Tiramisu Mocha", price: 75.0, imageUrl: "https://www.nespresso.com/shared_res/mos/free_html/sg/b2b/b2ccoffeerecipes/listing-image/image/dark-tiramisu-mocha.jpg"
+)
+
 var mockJSONResponseStoreInfo: Data {
     return """
     {

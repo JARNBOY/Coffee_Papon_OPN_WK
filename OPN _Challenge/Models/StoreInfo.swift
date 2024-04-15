@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StoreInfo: Codable {
+struct StoreInfo: Codable, Equatable {
     let name: String
     let rating: Double
     let openingTime: String
