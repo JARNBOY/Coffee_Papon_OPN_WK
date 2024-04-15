@@ -9,18 +9,37 @@ import Foundation
 import SwiftUI
 
 enum AccessibilityIdentifier: String {
+    // Common
+    case loadingProgress
+    case errorLabel
+    
+    // Splash Screen
     case splashScreenImage
     case splashScreenGradient
-//    
-//    case welcomeScreenTitle
-//    case welcomeScreenLogo
-//    case welcomeScreenGoToButton
-//
-//    case repositoriesTableView
-//
-//    case repositoryDetailView
-//    case closeButton
-//    
+    
+    // Store Screen
+    case storeDetailView
+    case logoStoreImage
+    case nameStoreLabel
+    case timeOpenCloseStoreLabel
+    case ratingLabel
+    case productsListView
+    case checkBoxView
+    case productImage
+    case productNameLabel
+    case productPriceLabel
+    case minusProductButton
+    case productQTYLabel
+    case plusProductButton
+    case orderButton
+
+    // Order Screen
+    case productSelectedImage
+    case productNameSelectedLabel
+    case productPriceAndQTYSelectedLabel
+    case totalPriceLabel
+    case confirmButton
+    
     var name: String {
         return rawValue.capitalized + "Identifier"
     }

@@ -21,16 +21,19 @@ struct StoreProductScreenView: View {
             case .loading:
                 Spacer()
                 ProgressView()
+                    .accessibility(identifier: .loadingProgress)
                 Spacer()
             case .success:
                 ScrollView {
                     if let storeData = viewModel.displayStore?.storeInfo {
                         StoreDetailView(store: storeData)
+                            .accessibility(identifier: .storeDetailView)
                     }
                     if let productsData = viewModel.displayStore?.productsInfo {
                         ProductListView(products: productsData, storeProductViewModel: viewModel)
                             .frame(width: .infinity)
                             .padding()
+                            .accessibility(identifier: .productsListView)
                     }
                 }
                 
@@ -42,6 +45,7 @@ struct StoreProductScreenView: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
                     .accentColor(Color.blue)
+                    .accessibility(identifier: .errorLabel)
                 Spacer()
             case .idle:
                 EmptyView()
@@ -52,6 +56,7 @@ struct StoreProductScreenView: View {
                 viewModel.openOrderScreen(coordinator: coordinator)
             }
             .disabled(viewModel.isDisableOrderButton)
+            .accessibility(identifier: .orderButton)
             
         }
         .background( .black )
@@ -96,12 +101,18 @@ struct StoreDetailView: View {
                         .frame(width: 120, height: 120)
                 )
                 .padding()
+                .accessibility(identifier: .logoStoreImage)
             
             VStack(alignment: .leading) {
                 Text(store.name)
                     .font(.title2)
+                    .accessibility(identifier: .nameStoreLabel)
+                
                 Text("Open: \(store.openingTime) - Close: \(store.closingTime)")
+                    .accessibility(identifier: .timeOpenCloseStoreLabel)
+                
                 Text("Rating: \(store.rating.oneDecimalPlace)")
+                    .accessibility(identifier: .ratingLabel)
             }
             
         }
@@ -143,13 +154,16 @@ struct ProductListView: View {
                     } placeholder: {
                         ProgressView()
                     }
+                    .accessibility(identifier: .productImage)
                     
                     // Detail Product
                     VStack(alignment: .leading) {
                         Text(product.name)
                             .accentColor(.white)
+                            .accessibility(identifier: .productNameLabel)
                         Text("Price: \(product.price.toString) Bath")
                             .accentColor(.white)
+                            .accessibility(identifier: .productPriceLabel)
                     }
                     .padding()
                     
@@ -161,8 +175,10 @@ struct ProductListView: View {
                             .tint(Color.red)
                             .frame(width: 40, height: 40)
                     })
+                    .accessibility(identifier: .minusProductButton)
                     
                     Text("\(String(describing: storeProductViewModel.selectedProduct[product]?.qty ?? 0))")
+                        .accessibility(identifier: .productQTYLabel)
                     
                     Button(action: {
                         storeProductViewModel.incrementSelectedProduct(for: product)
@@ -171,12 +187,13 @@ struct ProductListView: View {
                             .tint(Color.green)
                             .frame(width: 40, height: 40)
                     })
+                    .accessibility(identifier: .plusProductButton)
                     
                 }
                 .frame(width: .infinity, height: 150)
             }
             .toggleStyle(iOSCheckboxToggleStyle())
-            
+            .accessibility(identifier: .checkBoxView)
             
         }
     }
